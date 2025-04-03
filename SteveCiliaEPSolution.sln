@@ -5,6 +5,10 @@ VisualStudioVersion = 17.13.35828.75 d17.13
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SteveCiliaEPSolution", "SteveCiliaEPSolution\SteveCiliaEPSolution.csproj", "{6EF10294-3E38-41E3-A6FB-062C81B4A8B8}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataAccess", "DataAccess\DataAccess.csproj", "{26E5772D-EF90-48B0-B9B9-5AA8F4430136}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Domain", "Domain\Domain.csproj", "{1B23601D-6AC1-4A6C-ACC7-1339683C4CB2}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +19,14 @@ Global
 		{6EF10294-3E38-41E3-A6FB-062C81B4A8B8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6EF10294-3E38-41E3-A6FB-062C81B4A8B8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6EF10294-3E38-41E3-A6FB-062C81B4A8B8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{26E5772D-EF90-48B0-B9B9-5AA8F4430136}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{26E5772D-EF90-48B0-B9B9-5AA8F4430136}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{26E5772D-EF90-48B0-B9B9-5AA8F4430136}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{26E5772D-EF90-48B0-B9B9-5AA8F4430136}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1B23601D-6AC1-4A6C-ACC7-1339683C4CB2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1B23601D-6AC1-4A6C-ACC7-1339683C4CB2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1B23601D-6AC1-4A6C-ACC7-1339683C4CB2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1B23601D-6AC1-4A6C-ACC7-1339683C4CB2}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
