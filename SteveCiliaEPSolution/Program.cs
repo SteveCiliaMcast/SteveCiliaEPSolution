@@ -1,4 +1,5 @@
 using DataAccess.DataContext;
+using DataAccess.Repositories;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
@@ -19,6 +20,9 @@ public class Program
         builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
             .AddEntityFrameworkStores<PollDbContext>();
         builder.Services.AddControllersWithViews();
+
+        // Register PollRepository
+        builder.Services.AddScoped<PollRepository>();
 
         var app = builder.Build();
 
