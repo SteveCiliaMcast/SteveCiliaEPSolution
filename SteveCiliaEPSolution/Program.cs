@@ -21,8 +21,11 @@ public class Program
             .AddEntityFrameworkStores<PollDbContext>();
         builder.Services.AddControllersWithViews();
 
-        // Register PollRepository
-        builder.Services.AddScoped<PollRepository>();
+        //PollRepo
+        builder.Services.AddScoped<IPollRepository, PollRepository>();
+
+        //PollFileRepo
+        //builder.Services.AddScoped<IPollRepository>(provider => new PollFileRepository("polls.json"));
 
         var app = builder.Build();
 

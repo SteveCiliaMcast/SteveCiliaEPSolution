@@ -5,23 +5,29 @@ using Microsoft.AspNetCore.Mvc;
 namespace SteveCiliaEPSolution.Controllers
 {
     public class PollController : Controller
-    {      
+    {
+        private readonly IPollRepository pollRepository;
+
+        public PollController(IPollRepository _pollRepository)
+        {
+            pollRepository = _pollRepository;
+        }
 
         [HttpGet]
-        public IActionResult Index([FromServices] PollRepository pollRepository)
+        public IActionResult Index()
         {
             var polls = pollRepository.GetPolls().OrderByDescending(p => p.CreatedAt);
             return View(polls);
         }
 
         [HttpGet]
-        public IActionResult CreatePoll([FromServices] PollRepository pollRepository)
+        public IActionResult CreatePoll()
         {
             return View();
         }
 
         [HttpPost]
-        public IActionResult CreatePoll(Poll poll, [FromServices] PollRepository pollRepository)
+        public IActionResult CreatePoll(Poll poll)
         {
             if (ModelState.IsValid)
             {
@@ -33,9 +39,9 @@ namespace SteveCiliaEPSolution.Controllers
         }
 
         [HttpGet]
-        public IActionResult PollDetails(int id, [FromServices] PollRepository pollRepository)
+        public IActionResult PollDetails(int id)
         {
-            var poll = pollRepository.GetPolls().FirstOrDefault(p => p.Id == id);
+            var poll = pollRepository.GetPollById(id);
             if (poll == null)
             {
                 return NotFound();
@@ -44,12 +50,10 @@ namespace SteveCiliaEPSolution.Controllers
         }
 
         [HttpPost]
-        public IActionResult Vote(int pollId, int option, [FromServices] PollRepository pollRepository)
+        public IActionResult Vote(int pollId, int option)
         {
             pollRepository.Vote(pollId, option);
             return RedirectToAction("PollDetails", new { id = pollId });
         }
-
-
     }
 }

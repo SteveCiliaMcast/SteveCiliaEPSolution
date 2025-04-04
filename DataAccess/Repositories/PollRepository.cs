@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace DataAccess.Repositories
 {
-    public class PollRepository
+    public class PollRepository : IPollRepository
     {
         private PollDbContext context;
 
@@ -22,6 +22,11 @@ namespace DataAccess.Repositories
         {
             context.Polls.Add(poll);
             context.SaveChanges();
+        }
+
+        public Poll GetPollById(int id)
+        {
+            return context.Polls.FirstOrDefault(p => p.Id == id);
         }
 
         public IQueryable<Poll> GetPolls()
@@ -48,5 +53,7 @@ namespace DataAccess.Repositories
                 context.SaveChanges();
             }
         }
+
+        
     }
 }
