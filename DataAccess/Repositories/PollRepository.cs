@@ -1,5 +1,6 @@
 ﻿using DataAccess.DataContext;
 using Domain.Models;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -26,6 +27,47 @@ namespace DataAccess.Repositories
         public IQueryable<Poll> GetPolls()
         {
             return context.Polls;
+        }
+
+        public async Task VoteAsync(int pollId, int option)
+        {
+            var poll = await context.Polls.FindAsync(pollId);
+            if (poll != null)
+            {
+                switch (option)
+                {
+                    case 1:
+                        poll.Option1VotesCount++;
+                        break;
+                    case 2:
+                        poll.Option2VotesCount++;
+                        break;
+                    case 3:
+                        poll.Option3VotesCount++;
+                        break;
+                }
+                await context.SaveChangesAsync();
+            }
+        }
+        public void Vote(int pollId, int option)
+        {
+            var poll = context.Polls.Find(pollId);
+            if (poll != null)
+            {
+                switch (option)
+                {
+                    case 1:
+                        poll.Option1VotesCount++;
+                        break;
+                    case 2:
+                        poll.Option2VotesCount++;
+                        break;
+                    case 3:
+                        poll.Option3VotesCount++;
+                        break;
+                }
+                context.SaveChanges();
+            }
         }
     }
 }

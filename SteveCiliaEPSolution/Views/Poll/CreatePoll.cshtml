@@ -1,48 +1,52 @@
 ﻿@model Domain.Models.Poll
 
 @{
-    ViewData["Title"] = "CreatePoll";
+    ViewData["Title"] = "Create Poll";
 }
 
-<h1>CreatePoll</h1>
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <h2 class="mb-4 text-center">Create a New Poll</h2>
 
-<h4>Poll</h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="CreatePoll">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="Title" class="control-label"></label>
-                <input asp-for="Title" class="form-control" />
-                <span asp-validation-for="Title" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="OptionlText" class="control-label"></label>
-                <input asp-for="OptionlText" class="form-control" />
-                <span asp-validation-for="OptionlText" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Option2Text" class="control-label"></label>
-                <input asp-for="Option2Text" class="form-control" />
-                <span asp-validation-for="Option2Text" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Option3Text" class="control-label"></label>
-                <input asp-for="Option3Text" class="form-control" />
-                <span asp-validation-for="Option3Text" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
-            </div>
-        </form>
+            <form asp-action="CreatePoll">
+                <div asp-validation-summary="ModelOnly" class="alert alert-danger"></div>
+
+                <div class="mb-3">
+                    <label asp-for="Title" class="form-label">Poll Title</label>
+                    <input asp-for="Title" class="form-control" />
+                    <span asp-validation-for="Title" class="text-danger small"></span>
+                </div>
+
+                <div class="mb-3">
+                    <label asp-for="OptionlText" class="form-label">Option 1</label>
+                    <input asp-for="OptionlText" class="form-control" />
+                    <span asp-validation-for="OptionlText" class="text-danger small"></span>
+                </div>
+
+                <div class="mb-3">
+                    <label asp-for="Option2Text" class="form-label">Option 2</label>
+                    <input asp-for="Option2Text" class="form-control" />
+                    <span asp-validation-for="Option2Text" class="text-danger small"></span>
+                </div>
+
+                <div class="mb-3">
+                    <label asp-for="Option3Text" class="form-label">Option 3</label>
+                    <input asp-for="Option3Text" class="form-control" />
+                    <span asp-validation-for="Option3Text" class="text-danger small"></span>
+                </div>
+
+                <div class="d-flex justify-content-between mt-4">
+                    <a asp-action="Index" class="btn btn-secondary">Back to List</a>
+                    <button type="submit" class="btn btn-primary">Create Poll</button>
+                </div>
+            </form>
+        </div>
     </div>
 </div>
 
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
-
 @section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
 }

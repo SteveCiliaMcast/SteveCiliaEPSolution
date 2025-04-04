@@ -32,6 +32,24 @@ namespace SteveCiliaEPSolution.Controllers
             return View(poll);
         }
 
+        [HttpGet]
+        public IActionResult PollDetails(int id, [FromServices] PollRepository pollRepository)
+        {
+            var poll = pollRepository.GetPolls().FirstOrDefault(p => p.Id == id);
+            if (poll == null)
+            {
+                return NotFound();
+            }
+            return View(poll);
+        }
+
+        [HttpPost]
+        public IActionResult Vote(int pollId, int option, [FromServices] PollRepository pollRepository)
+        {
+            pollRepository.Vote(pollId, option);
+            return RedirectToAction("PollDetails", new { id = pollId });
+        }
+
 
     }
 }
