@@ -8,9 +8,10 @@ namespace SteveCiliaEPSolution.Controllers
     {      
 
         [HttpGet]
-        public IActionResult Index()
+        public IActionResult Index([FromServices] PollRepository pollRepository)
         {
-            return View();
+            var polls = pollRepository.GetPolls().OrderByDescending(p => p.CreatedAt);
+            return View(polls);
         }
 
         [HttpGet]
