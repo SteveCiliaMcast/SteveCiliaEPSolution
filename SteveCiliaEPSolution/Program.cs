@@ -21,6 +21,9 @@ public class Program
             .AddEntityFrameworkStores<PollDbContext>();
         builder.Services.AddControllersWithViews();
 
+        builder.Services.AddScoped<EnsureUserHasNotVotedAttribute>();
+
+
         //PollRepo
         builder.Services.AddScoped<IPollRepository, PollRepository>();
 

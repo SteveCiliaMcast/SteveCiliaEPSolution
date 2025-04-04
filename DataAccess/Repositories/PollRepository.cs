@@ -4,8 +4,6 @@ using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DataAccess.Repositories
 {
@@ -33,11 +31,18 @@ namespace DataAccess.Repositories
         {
             return context.Polls;
         }
-        public void Vote(int pollId, int option)
+
+        public void Vote(int pollId, int option, string userId)
         {
             var poll = context.Polls.Find(pollId);
             if (poll != null)
             {
+                if (poll.VotedUsers.Contains(userId))
+                {
+                    // User has already voted
+                    return;
+                }
+
                 switch (option)
                 {
                     case 1:
@@ -50,10 +55,10 @@ namespace DataAccess.Repositories
                         poll.Option3VotesCount++;
                         break;
                 }
+
+                poll.VotedUsers.Add(userId);
                 context.SaveChanges();
             }
         }
-
-        
     }
 }

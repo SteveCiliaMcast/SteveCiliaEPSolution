@@ -1,6 +1,8 @@
 ﻿using DataAccess.Repositories;
 using Domain.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 
 namespace SteveCiliaEPSolution.Controllers
 {
@@ -43,10 +45,29 @@ namespace SteveCiliaEPSolution.Controllers
         }
 
         [HttpPost]
+        [Authorize]
+        [ServiceFilter(typeof(EnsureUserHasNotVotedAttribute))]
         public IActionResult Vote([FromServices] IPollRepository pollRepository, int pollId, int option)
         {
-            pollRepository.Vote(pollId, option);
+            if (!ModelState.IsValid)
+            {
+                var poll = pollRepository.GetPollById(pollId);
+                return View("PollDetails", poll);
+            }
+
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            pollRepository.Vote(pollId, option, userId);
+
             return RedirectToAction("PollDetails", new { id = pollId });
         }
+
+        [HttpGet]
+        [Authorize]
+        public IActionResult Vote(int pollId)
+        {
+            return RedirectToAction("PollDetails", new { id = pollId });
+        }
+
+
     }
 }

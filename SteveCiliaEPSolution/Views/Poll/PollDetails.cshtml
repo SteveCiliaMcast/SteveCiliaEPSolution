@@ -7,6 +7,7 @@
 <div class="container mt-4">
     <h1 class="mb-4">Poll Details</h1>
 
+    <!-- Poll Info -->
     <div class="card mb-4">
         <div class="card-header">
             <h4 class="mb-0">@Model.Title</h4>
@@ -14,7 +15,7 @@
         <div class="card-body">
             <div class="row mb-2">
                 <div class="col-sm-4 fw-bold">Option 1</div>
-                <div class="col-sm-8">@Model.OptionlText</div>
+                <div class="col-sm-8">@Model.Option1Text</div>
             </div>
             <div class="row mb-2">
                 <div class="col-sm-4 fw-bold">Option 2</div>
@@ -25,21 +26,6 @@
                 <div class="col-sm-8">@Model.Option3Text</div>
             </div>
 
-            <hr />
-
-            <div class="row mb-2">
-                <div class="col-sm-4 fw-bold">Votes for Option 1</div>
-                <div class="col-sm-8">@Model.Option1VotesCount</div>
-            </div>
-            <div class="row mb-2">
-                <div class="col-sm-4 fw-bold">Votes for Option 2</div>
-                <div class="col-sm-8">@Model.Option2VotesCount</div>
-            </div>
-            <div class="row mb-2">
-                <div class="col-sm-4 fw-bold">Votes for Option 3</div>
-                <div class="col-sm-8">@Model.Option3VotesCount</div>
-            </div>
-
             <div class="row mt-3">
                 <div class="col-sm-4 fw-bold">Created At</div>
                 <div class="col-sm-8">@Model.CreatedAt.ToString("yyyy-MM-dd HH:mm")</div>
@@ -47,35 +33,81 @@
         </div>
     </div>
 
+    <!-- Voting Section (Above Chart) -->
+    <div class="card mb-4">
+        <div class="card-header">
+            <h5 class="mb-0 text-dark">Cast Your Vote</h5>
+        </div>
+        <div class="card-body">
+            @if (!ViewData.ModelState.IsValid)
+            {
+                <div class="alert alert-danger">
+                    @foreach (var error in ViewData.ModelState.Values.SelectMany(v => v.Errors))
+                    {
+                        <p>@error.ErrorMessage</p>
+                    }
+                </div>
+            }
+
+            <div class="row g-2">
+                <div class="col-md-4">
+                    <form method="post" asp-action="Vote" asp-route-pollId="@Model.Id">
+                        <input type="hidden" name="option" value="1" />
+                        <button type="submit" class="btn btn-outline-primary w-100 h-100">
+                            Vote for @Model.Option1Text
+                        </button>
+                    </form>
+                </div>
+                <div class="col-md-4">
+                    <form method="post" asp-action="Vote" asp-route-pollId="@Model.Id">
+                        <input type="hidden" name="option" value="2" />
+                        <button type="submit" class="btn btn-outline-success w-100 h-100">
+                            Vote for @Model.Option2Text
+                        </button>
+                    </form>
+                </div>
+                <div class="col-md-4">
+                    <form method="post" asp-action="Vote" asp-route-pollId="@Model.Id">
+                        <input type="hidden" name="option" value="3" />
+                        <button type="submit" class="btn btn-outline-info w-100 h-100">
+                            Vote for @Model.Option3Text
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Vote Count Row -->
+    <div class="card mb-4">
+        <div class="card-header">
+            <h5 class="mb-0 text-dark">Votes Summary</h5>
+        </div>
+        <div class="card-body">
+            <div class="row text-center fw-bold">
+                <div class="col border-end">
+                    <div class="text-secondary">Option 1</div>
+                    <div class="fs-4">@Model.Option1VotesCount</div>
+                </div>
+                <div class="col border-end">
+                    <div class="text-secondary">Option 2</div>
+                    <div class="fs-4">@Model.Option2VotesCount</div>
+                </div>
+                <div class="col">
+                    <div class="text-secondary">Option 3</div>
+                    <div class="fs-4">@Model.Option3VotesCount</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Chart Section -->
     <div class="card mb-4">
         <div class="card-header">
             <h5 class="mb-0 text-dark">Poll Results</h5>
         </div>
         <div class="card-body">
             <canvas id="pollResultsChart"></canvas>
-        </div>
-    </div>
-
-    <div class="card mb-4">
-        <div class="card-header">
-            <h5 class="mb-0 text-dark">Cast Your Vote</h5>
-        </div>
-        <div class="card-body">
-            <form method="post" asp-action="Vote" asp-route-pollId="@Model.Id">
-                <div class="form-check mb-2">
-                    <input class="form-check-input" type="radio" name="option" value="1" id="option1">
-                    <label class="form-check-label" for="option1">@Model.OptionlText</label>
-                </div>
-                <div class="form-check mb-2">
-                    <input class="form-check-input" type="radio" name="option" value="2" id="option2">
-                    <label class="form-check-label" for="option2">@Model.Option2Text</label>
-                </div>
-                <div class="form-check mb-3">
-                    <input class="form-check-input" type="radio" name="option" value="3" id="option3">
-                    <label class="form-check-label" for="option3">@Model.Option3Text</label>
-                </div>
-                <button type="submit" class="btn btn-primary">Vote</button>
-            </form>
         </div>
     </div>
 
@@ -87,7 +119,7 @@
     var pollResultsChart = new Chart(ctx, {
         type: 'bar',
         data: {
-            labels: ['@Model.OptionlText', '@Model.Option2Text', '@Model.Option3Text'],
+            labels: ['@Model.Option1Text', '@Model.Option2Text', '@Model.Option3Text'],
             datasets: [{
                 label: 'Votes',
                 data: [@Model.Option1VotesCount, @Model.Option2VotesCount, @Model.Option3VotesCount],
@@ -107,7 +139,8 @@
         options: {
             scales: {
                 y: {
-                    beginAtZero: true
+                    beginAtZero: true,
+                    precision: 0
                 }
             }
         }

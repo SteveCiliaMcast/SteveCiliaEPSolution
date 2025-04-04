@@ -39,7 +39,7 @@ namespace DataAccess.Repositories
             return GetPolls().FirstOrDefault(p => p.Id == id);
         }
 
-        public void Vote(int pollId, int option)
+        public void Vote(int pollId, int option,string userId)
         {
             var polls = GetPolls().ToList();
             var poll = polls.FirstOrDefault(p => p.Id == pollId);
@@ -57,6 +57,7 @@ namespace DataAccess.Repositories
                         poll.Option3VotesCount++;
                         break;
                 }
+                poll.VotedUsers.Add(userId);
                 SavePolls(polls);
             }
         }
