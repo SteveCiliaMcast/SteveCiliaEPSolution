@@ -6,15 +6,8 @@ namespace SteveCiliaEPSolution.Controllers
 {
     public class PollController : Controller
     {
-        private readonly IPollRepository pollRepository;
-
-        public PollController(IPollRepository _pollRepository)
-        {
-            pollRepository = _pollRepository;
-        }
-
         [HttpGet]
-        public IActionResult Index()
+        public IActionResult Index([FromServices] IPollRepository pollRepository)
         {
             var polls = pollRepository.GetPolls().OrderByDescending(p => p.CreatedAt);
             return View(polls);
@@ -27,7 +20,7 @@ namespace SteveCiliaEPSolution.Controllers
         }
 
         [HttpPost]
-        public IActionResult CreatePoll(Poll poll)
+        public IActionResult CreatePoll([FromServices] IPollRepository pollRepository, Poll poll)
         {
             if (ModelState.IsValid)
             {
@@ -39,7 +32,7 @@ namespace SteveCiliaEPSolution.Controllers
         }
 
         [HttpGet]
-        public IActionResult PollDetails(int id)
+        public IActionResult PollDetails([FromServices] IPollRepository pollRepository, int id)
         {
             var poll = pollRepository.GetPollById(id);
             if (poll == null)
@@ -50,7 +43,7 @@ namespace SteveCiliaEPSolution.Controllers
         }
 
         [HttpPost]
-        public IActionResult Vote(int pollId, int option)
+        public IActionResult Vote([FromServices] IPollRepository pollRepository, int pollId, int option)
         {
             pollRepository.Vote(pollId, option);
             return RedirectToAction("PollDetails", new { id = pollId });
